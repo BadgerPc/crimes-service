@@ -2,6 +2,7 @@ package org.lordofthejars.villains.crimes;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rx.java.RxHelper;
@@ -16,11 +17,16 @@ import java.util.stream.Collectors;
 
 public class CrimesVerticle extends AbstractVerticle {
 
+
+    public static void main(String args[]) {
+        Vertx vertx = Vertx.vertx();
+        vertx.deployVerticle(CrimesVerticle.class.getName());
+    }
+
     private JDBCClient jdbcClient;
 
     @Override
     public void start(Future<Void> fut) {
-
         jdbcClient = JDBCClient.createShared(vertx, new JsonObject()
             .put("url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1")
             .put("driver_class", "org.h2.Driver")
